@@ -1,0 +1,57 @@
+name: full-archaeological-dig
+description: "Complete end-to-end codebase analysis: history excavation, dead code detection, pattern classification, and modernization roadmap"
+version: 1.0.0
+
+inputs:
+  - name: repo_path
+    type: string
+    required: true
+    description: "Path to the git repository to analyze"
+  - name: language
+    type: string
+    required: false
+    default: "auto"
+    description: "Primary language hint (js, ts, python, go, java, auto)"
+  - name: depth
+    type: string
+    required: false
+    default: "standard"
+    description: "Analysis depth: quick (15min), standard (45min), deep (2hr)"
+
+steps:
+  - id: orient
+    action: "Verify the target is a valid git repository and gather basic stats (total commits, contributors, languages detected)"
+    skill: excavate-history
+    outputs: [repo_stats, language_detected]
+
+  - id: excavate
+    action: "Run full git history excavation: churn analysis, debt signal commits, knowledge silos, fossil files"
+    depends_on: [orient]
+    skill: excavate-history
+    inputs:
+      language: ${{ inputs.language_detected || inputs.language }}
+    outputs: [history_findings]
+
+  - id: detect_dead_code
+    action: "Scan for dead code: orphaned files, commented-out blocks, stale TODOs, unused exports"
+    depends_on: [orient]
+    skill: dead-code-detector
+    outputs: [dead_code_findings]
+
+  - id: classify_patterns
+    action: "Classify anti-patterns and estimate codebase era using language-specific idiom detection"
+    depends_on: [orient]
+    skill: pattern-classifier
+    outputs: [pattern_findings, estimated_era, legacy_tier]
+
+  - id: synthesize
+    action: "Synthesize all findings into a prioritized modernization roadmap with effort estimates"
+    depends_on: [excavate, detect_dead_code, classify_patterns]
+    skill: modernization-report
+    inputs:
+      history_findings: ${{ steps.excavate.outputs.history_findings }}
+      dead_code_findings: ${{ steps.detect_dead_code.outputs.dead_code_findings }}
+      pattern_findings: ${{ steps.classify_patterns.outputs.pattern_findings }}
+      estimated_era: ${{ steps.classify_patterns.outputs.estimated_era }}
+      legacy_tier: ${{ steps.classify_patterns.outputs.legacy_tier }}
+    outputs: [final_report]

@@ -1,0 +1,32 @@
+spec_version: "0.1.0"
+name: code-archaeologist
+version: 1.0.0
+description: "Excavates git history and legacy code to surface actionable modernization insights"
+
+author: HackCulture Hackathon
+license: MIT
+
+model:
+  preferred: claude-sonnet-4-6
+  fallback:
+    - claude-haiku-4-5-20251001
+  constraints:
+    temperature: 0.2
+    max_tokens: 8192
+
+skills:
+  - excavate-history
+  - dead-code-detector
+  - pattern-classifier
+  - modernization-report
+
+runtime:
+  max_turns: 30
+  timeout: 120
+
+tags:
+  - developer-tools
+  - code-quality
+  - legacy
+  - git
+  - refactoring
